@@ -21,14 +21,13 @@ git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 
 
 echo "**pushing tag $TAG to repo $GITHUB_REPOSITORY with refs_url $git_refs_url"
 
-else
   # create new tag
-  curl -s -X POST $git_refs_url \
-  -H "Authorization: token $GITHUB_TOKEN" \
-  -d @- << EOF
+curl -s -X POST $git_refs_url \
+-H "Authorization: token $GITHUB_TOKEN" \
+-d @- << EOF
 
-  {
-    "ref": "refs/tags/$TAG",
-    "sha": "$SHA"
-  }
+{
+  "ref": "refs/tags/$TAG",
+  "sha": "$SHA"
+}
 EOF
